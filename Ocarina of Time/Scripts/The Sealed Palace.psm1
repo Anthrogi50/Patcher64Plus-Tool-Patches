@@ -3,6 +3,7 @@ function ByteOptions() {
     if (IsChecked $Redux.Gameplay.NoKillFlash)       { ChangeBytes -Offset "B35573" -Values "00" }
     if (IsChecked $Redux.Gameplay.InstantClaimCheck) { ChangeBytes -Offset "1EB327C" -Values "00000000"; ChangeBytes -Offset "1EB32A4" -Values "00000000" }
     if (IsChecked $Redux.Gameplay.BlackBars)         { ChangeBytes -Offset "B2ABEC" -Values "00000000" }
+	if (IsChecked $Redux.Gameplay.InvertAim)         { ChangeBytes -Offset "1B9BE78" -Values "C3"; ChangeBytes -Offset "1B9C094" -Values "C4" }
     if (IsChecked $Redux.Gameplay.TextSpeed)         { ChangeBytes -Offset "B80AAB" -Values "02" }
     if (IsChecked $Redux.Gameplay.FastRang) 		 { ChangeBytes -Offset "1B7CE8B" -Values "10"; ChangeBytes -Offset "1C0F5E2" -Values "41C0" }
     if (IsChecked $Redux.Gameplay.FastBullets)       { ChangeBytes -Offset @("1BD2E82", "1BD2EBE") -Values "4330"; ChangeBytes -Offset @("1DBF502", "1DC14C2", "1DC34A2") -Values "0010" }
@@ -76,14 +77,14 @@ function ByteOptions() {
         MultiplyBytes -Offset   "1E6A57B"             -Factor $multi -Max 127 -Min 3 # Ganon
     }
     
-    if     (IsText -Elem $Redux.Hero.Damage -Compare "2x Damage")          { ChangeBytes -Offset "1B7DFEA" -Values "2BC3" }
-    elseif (IsText -Elem $Redux.Hero.Damage -Compare "4x Damage")          { ChangeBytes -Offset "1B7DFEA" -Values "2B83" }
-    elseif (IsText -Elem $Redux.Hero.Damage -Compare "8x Damage")          { ChangeBytes -Offset "1B7DFEA" -Values "2B43" }
-    if     (IsText -Elem $Redux.Hero.MagicUsage -Compare "2x Magic Usage") { ChangeBytes -Offset "AFE8C6"  -Values "2C40" }
-    elseif (IsText -Elem $Redux.Hero.MagicUsage -Compare "4x Magic Usage") { ChangeBytes -Offset "AFE8C6"  -Values "2C80" }
-    elseif (IsText -Elem $Redux.Hero.MagicUsage -Compare "8x Magic Usage") { ChangeBytes -Offset "AFE8C6"  -Values "2CC0" }
-
-    if (IsChecked $Redux.Hero.NoBottledFairy) { ChangeBytes -Offset "1B9A7F4"  -Values "00000000" }
+    if     (IsText -Elem $Redux.Hero.Damage -Compare "2x Damage")          	{ ChangeBytes -Offset "1B7DFEA" -Values "2BC3" }
+    elseif (IsText -Elem $Redux.Hero.Damage -Compare "4x Damage")          	{ ChangeBytes -Offset "1B7DFEA" -Values "2B83" }
+    elseif (IsText -Elem $Redux.Hero.Damage -Compare "8x Damage")          	{ ChangeBytes -Offset "1B7DFEA" -Values "2B43" }
+    if     (IsText -Elem $Redux.Hero.MagicUsage1 -Compare "2x Magic Usage") { ChangeBytes -Offset "AFE8C6"  -Values "2C40" }
+    elseif (IsText -Elem $Redux.Hero.MagicUsage1 -Compare "4x Magic Usage") { ChangeBytes -Offset "AFE8C6"  -Values "2C80" }
+    elseif (IsText -Elem $Redux.Hero.MagicUsage1 -Compare "8x Magic Usage") { ChangeBytes -Offset "AFE8C6"  -Values "2CC0" }
+    if 	   (IsChecked $Redux.Hero.NoBottledFairy) 						   	{ ChangeBytes -Offset "1B9A7F4" -Values "00000000" }
+	if     (IsChecked $Redux.Hero.RematchBosses)                           	{ ChangeBytes -Offset @("1BFBC00", "1BF4988", "1CE1D38", "1C48088", "1CBF750", "1CFAEEC", "1D43D60", "1D287F0") -Values "00000000" } # All except Demon Ganondorf
 
     # HARDER ENEMIES #
 
@@ -102,7 +103,12 @@ function ByteOptions() {
     if (IsChecked $Redux.Enemy.IronKnuckle) { ChangeBytes -Offset "1DCC98C" -Values "40707070"; ChangeBytes -Offset "1DCC990" -Values "40C0"; ChangeBytes -Offset @("1DCA48E", "1DCA47A") -Values "0800"; ChangeBytes -Offset "1DCA64E" -Values "0001"; ChangeBytes -Offset @("1DC9D4E", "1DCA0C2") -Values "1500"; ChangeBytes -Offset "1DC9FE2" -Values "0320"; ChangeBytes -Offset "3C93539" -Values "03"; ChangeBytes -Offset @("3C939FD", "3C94DBD") -Values "02" }
     if (IsChecked $Redux.Enemy.Gerudo)      { ChangeBytes -Offset @("1E9B4D2", "1E9C5BE", "1E9C9AE") -Values "0000"; ChangeBytes -Offset "1E9C7C6" -Values "4200" }
     if (IsChecked $Redux.Enemy.Wolfos)      { ChangeBytes -Offset "1EB88CE" -Values "0000"; ChangeBytes -Offset "1EB8C8E" -Values "D000"; ChangeBytes -Offset "1EBADFF" -Values "00" }
-    if (IsChecked $Redux.Enemy.Bosses)      { ChangeBytes -Offset "1BF96CA" -Values "0016"; ChangeBytes -Offset "1BFC3E6" -Values "0030"; ChangeBytes -Offset "1BFD46E" -Values "0020"; ChangeBytes -Offset "1BFD48E" -Values "000C"; ChangeBytes -Offset "1BF258A" -Values "4500"; ChangeBytes -Offset "1C0E7E2" -Values "427B"; ChangeBytes -Offset "1C0E7FE" -Values "0030"; ChangeBytes -Offset "1C0F214" -Values "41272727"; ChangeBytes -Offset "1BF59EE" -Values "0024"; ChangeBytes -Offset "1BF2C4A" -Values "0000" }
+    if (IsChecked $Redux.Enemy.Bosses)      { ChangeBytes -Offset @("1BF9412", "1BF9416", "1BFC222") -Values "0000"; ChangeBytes -Offset "1BF96CA" -Values "0016"; ChangeBytes -Offset "1BFC3E6" -Values "0030"; ChangeBytes -Offset "1BFD46E" -Values "0020"; ChangeBytes -Offset "1BFD48E" -Values "000C"; ChangeBytes -Offset "1BFC7F8" -Values "00000000"; ChangeBytes -Offset "1BFCBCA" -Values "1000"; ChangeBytes -Offset "36B0469" -Values "03"; ChangeBytes -Offset "1BF258A" -Values "4500"; ChangeBytes -Offset "1C0E7E2" -Values "427B"; ChangeBytes -Offset "1C0E7FE" -Values "0030"; ChangeBytes -Offset "1C0F214" -Values "41272727"; ChangeBytes -Offset "1BF59EE" -Values "0024"; ChangeBytes -Offset "1BF2C4A" -Values "0000" }
+
+	# MINIGAMES #
+
+    if (IsChecked $Redux.Minigames.GraveDig) { ChangeBytes -Offset "1C79954" -Values "00000000" }
+    if (IsChecked $Redux.Minigames.Fishing)  { ChangeBytes -Offset @("1DAC9EC", "1DACA08", "1DACA18") -Values "00000000"; ChangeBytes -Offset "1DACA74" -Values "01A00821" }
 
     # RECOVERY #
 
@@ -117,12 +123,15 @@ function ByteOptions() {
 
     # MAGIC #
 
-    if (IsDefault $Redux.Magic.FireArrow  -Not) { ChangeBytes -Offset "1B9B864" -Values (Get8Bit $Redux.Magic.FireArrow.Text) }
-    if (IsDefault $Redux.Magic.IceArrow   -Not) { ChangeBytes -Offset "1B9B865" -Values (Get8Bit $Redux.Magic.IceArrow.Text) }
-    if (IsDefault $Redux.Magic.LightArrow -Not) { ChangeBytes -Offset "1B9B866" -Values (Get8Bit $Redux.Magic.LightArrow.Text) }
-    if (IsDefault $Redux.Magic.Burst 	  -Not) { ChangeBytes -Offset "1B9B875" -Values (Get8Bit $Redux.Magic.Burst.Text) }
-    if (IsDefault $Redux.Magic.Teleport   -Not) { ChangeBytes -Offset "1B9B873" -Values (Get8Bit $Redux.Magic.Teleport.Text) }
-    if (IsDefault $Redux.Magic.Barrier 	  -Not) { ChangeBytes -Offset "1B9B874" -Values (Get8Bit $Redux.Magic.Barrier.Text) }    
+    if 	   (IsDefault $Redux.Magic.FireArrow  -Not) 						 { ChangeBytes -Offset "1B9B864" -Values (Get8Bit $Redux.Magic.FireArrow.Text) }
+    if 	   (IsDefault $Redux.Magic.IceArrow   -Not) 						 { ChangeBytes -Offset "1B9B865" -Values (Get8Bit $Redux.Magic.IceArrow.Text) }
+    if 	   (IsDefault $Redux.Magic.LightArrow -Not) 						 { ChangeBytes -Offset "1B9B866" -Values (Get8Bit $Redux.Magic.LightArrow.Text) }
+    if 	   (IsDefault $Redux.Magic.Burst 	  -Not) 						 { ChangeBytes -Offset "1B9B875" -Values (Get8Bit $Redux.Magic.Burst.Text) }
+    if 	   (IsDefault $Redux.Magic.Teleport   -Not) 						 { ChangeBytes -Offset "1B9B873" -Values (Get8Bit $Redux.Magic.Teleport.Text) }
+    if 	   (IsDefault $Redux.Magic.Barrier 	  -Not) 						 { ChangeBytes -Offset "1B9B874" -Values (Get8Bit $Redux.Magic.Barrier.Text) }
+	if     (IsText -Elem $Redux.Magic.MagicUsage2 -Compare "2x Magic Usage") { ChangeBytes -Offset "1C50C12" -Values "2C40" }
+    elseif (IsText -Elem $Redux.Magic.MagicUsage2 -Compare "4x Magic Usage") { ChangeBytes -Offset "1C50C12" -Values "2C80" }
+    elseif (IsText -Elem $Redux.Magic.MagicUsage2 -Compare "8x Magic Usage") { ChangeBytes -Offset "1C50C12" -Values "2CC0" }
 
     # EQUIPMENT COLORS #
 
@@ -217,6 +226,7 @@ function CreateTabMain() {
     CreateReduxCheckBox -Name "NoKillFlash"       -Text "No Kill Flash"               -Info "Disable the flashing effect when killing certain enemies like walltula etc"                                                                                                          -Credits "Chez Cousteau & Anthrogi (ported))"
     CreateReduxCheckBox -Name "InstantClaimCheck" -Text "Instant Claim Check"         -Info "Allows you to use the claim check immediately to get the biggoron's sword"                                                                                                           -Credits "Randomizer & Anthrogi (ported)"
     CreateReduxCheckBox -Name "BlackBars"         -Text "No Black Bars (Z-Targeting)" -Info "Removes the black bars shown on the top & bottom of the screen during Z-targeting"                                                                                                   -Credits "Admentus & Anthrogi (ported)"
+	CreateReduxCheckBox -Name "InvertAim"         -Text "Invert Y-Axis Aiming"        -Info "Invert the up/down controls when aiming in first/third person or looking"                                                                                                           -Credits "ZNemesis & Anthrogi (ported)"
     CreateReduxCheckBox -Name "TextSpeed"         -Text "2x Text Speed"               -Info "Makes text go 2x as fast"                                                                                                                                                            -Credits "Admentus & Anthrogi (ported)"
     CreateReduxCheckbox -Name "FastRang" 	      -Text "Quicker Boomerang" 	      -Info "Boomerang flys faster and returns quicker while the return timer is reduced to approximate the original distance"                                                                    -Credits "Anthrogi"
     CreateReduxCheckBox -Name "FastBullets"       -Text "Better Projectile Shots"     -Info "Deku Seeds and Arrows travel faster when shot, along with the burst animation for Fire, Ice and Light Arrows being shorter`nAllows Link to shoot the next magic arrow a bit quicker" -Credits "Anthrogi"
@@ -242,12 +252,19 @@ function CreateTabDifficulty() {
     $items3 = @("1 Boss HP", "0.5x Boss HP", "1x Boss HP", "1.5x Boss HP", "2x Boss HP", "2.5x Boss HP", "3x Boss HP", "3.5x Boss HP", "4x Boss HP", "5x Boss HP")
 
     CreateReduxGroup    -Tag  "Hero"           -Text "Hero Mode"
-    CreateReduxComboBox -Name "MonsterHP"      -Text "Monster HP"   -Default 3 -Items $items1                                                                   -Info "Set the amount of health for monsters`nDoesn't include monsters which die in one hit"  -Credits "Admentus & Anthrogi (ported)"
-    CreateReduxComboBox -Name "MiniBossHP"     -Text "Mini-Boss HP" -Default 3 -Items $items2                                                                   -Info "Set the amount of health for mini-bosses`nSome enemies are not included due to issues" -Credits "Admentus & Anthrogi (ported)"
-    CreateReduxComboBox -Name "BossHP"         -Text "Boss HP"      -Default 3 -Items $items3                                                                   -Info "Set the amount of health for bosses`nSome have a max health cap"                       -Credits "Admentus, Marcelo20XX & Anthrogi (ported)"
-    CreateReduxComboBox -Name "Damage"         -Text "Damage"       -Default 1 -Items @("1x Damage", "2x Damage", "4x Damage", "8x Damage")                     -Info "Set the amount of damage you'll receive"                                               -Credits "Admentus & Anthrogi (ported)"
-    CreateReduxComboBox -Name "MagicUsage"     -Text "Magic Usage"  -Default 1 -Items @("1x Magic Usage", "2x Magic Usage", "4x Magic Usage", "8x Magic Usage") -Info "Set the multiplier rate the magic is consumed at."                                     -Credits "Admentus (original) & Anthrogi (ported)"
-    CreateReduxCheckBox -Name "NoBottledFairy" -Text "No Bottled Fairies"                                                                                       -Info "Fairies can no longer be put into a bottle"                                            -Credits "Admentus (original) & Anthrogi (ported)"
+    CreateReduxComboBox -Name "MonsterHP"      -Text "Monster HP"   	-Default 3 -Items $items1                                                                   -Info "Set the amount of health for monsters`nDoesn't include monsters which die in one hit"  -Credits "Admentus & Anthrogi (ported)"
+    CreateReduxComboBox -Name "MiniBossHP"     -Text "Mini-Boss HP" 	-Default 3 -Items $items2                                                                   -Info "Set the amount of health for mini-bosses`nSome enemies are not included due to issues" -Credits "Admentus & Anthrogi (ported)"
+    CreateReduxComboBox -Name "BossHP"         -Text "Boss HP"      	-Default 3 -Items $items3                                                                   -Info "Set the amount of health for bosses`nSome have a max health cap"                       -Credits "Admentus, Marcelo20XX & Anthrogi (ported)"
+    CreateReduxComboBox -Name "Damage"         -Text "Damage"       	-Default 1 -Items @("1x Damage", "2x Damage", "4x Damage", "8x Damage")                     -Info "Set the amount of damage you'll receive"                                               -Credits "Admentus & Anthrogi (ported)"
+    CreateReduxComboBox -Name "MagicUsage1"    -Text "All Magic Usage"  -Default 1 -Items @("1x Magic Usage", "2x Magic Usage", "4x Magic Usage", "8x Magic Usage") -Info "Set the multiplier rate the magic is consumed at, for all instances"                   -Credits "Admentus (original) & Anthrogi (ported)"
+    CreateReduxCheckBox -Name "NoBottledFairy" -Text "No Bottled Fairies"                                                                                       	-Info "Fairies can no longer be put into a bottle"                                            -Credits "Admentus (original) & Anthrogi (ported)"
+	CreateReduxCheckBox -Name "RematchBosses"  -Text "Rematch Bosses"                                                                                           	-Info "You can fight bosses again after defeating them by going back in their lair"       	  -Credits "Euler & Anthrogi (ported)" -Warning "Doesn't work if patching the option after the bosses were defeated"
+
+	# MINIGAMES #
+    
+    CreateReduxGroup    -Tag  "Minigames" -Text "Minigames"
+    CreateReduxCheckBox -Name "GraveDig"  -Text "Grave Digging"  -Info "Dampe's Digging Game always gives you a Piece of Heart on the first try"                                                                                 -Credits "Randomizer & Anthrogi (ported)"
+    CreateReduxCheckBox -Name "Fishing"   -Text "Better Fishing" -Info "Make fish biting guaranteed when the hook of the rod is stable, and the fish will no longer randomly let go after 51 frames when trying to reel them in" -Credits "Randomizer & Anthrogi (ported)"
 
     # HARDER ENEMIES #
 
@@ -267,7 +284,7 @@ function CreateTabDifficulty() {
     CreateReduxCheckBox -Name "IronKnuckle" -Text "Iron Knuckle"      -Info "Iron Knuckles are set to their phase 2 state and move faster along with attacking more efficiently"                                                                                                              -Credits "Admentus & Anthrogi (also ported)"
     CreateReduxCheckBox -Name "Gerudo"      -Text "Gerudo Fighter"    -Info "Gerudo Fighters don't get distracted if player moves out of their sight and recovers from spin attacks instantly"                                                                                                -Credits "Euler & Anthrogi (also ported)"
     CreateReduxCheckBox -Name "Wolfos"      -Text "Wolfos"            -Info "Wolfos will attack faster and do not falter from having attacks blocked`nThey also attack when z-targeting another enemy"                                                                                        -Credits "Euler & Anthrogi (also ported)"
-    CreateReduxCheckBox -Name "Bosses"      -Text "Bosses"            -Info "Gohma recovers faster from being stunned`n`nKing Dodongo inhales faster and recovers from stun immediately along with shooting fireballs faster and for longer with increased size"                              -Credits "Admentus, Euler & Anthrogi (also ported)"
+    CreateReduxCheckBox -Name "Bosses"      -Text "Bosses"            -Info "Queen Gohma recovers faster from being stunned with somewhat quicker attacks`n`nKing Dodongo inhales faster and recovers from stun immediately along with shooting fireballs faster and for longer with increased size"                              -Credits "Admentus, Euler & Anthrogi (also ported)"
 
     # RECOVERY #
 
@@ -296,13 +313,14 @@ function CreateTabDifficulty() {
 
     # MAGIC #
 
-    CreateReduxGroup   -Tag  "Magic"      -Text "Magic Costs"
-    CreateReduxTextBox -Name "FireArrow"  -Text "Fire Arrow"    -Value 4  -Min 2 -Max 96 -Info "Set the magic cost for using Fire Arrows´n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"    -Credits "Admentus (original) & Anthrogi (ported)"
-    CreateReduxTextBox -Name "IceArrow"   -Text "Ice Arrow"     -Value 4  -Min 2 -Max 96 -Info "Set the magic cost for using Ice Arrows´n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"     -Credits "Admentus (original) & Anthrogi (ported)"
-    CreateReduxTextBox -Name "LightArrow" -Text "Light Arrow"   -Value 8  -Min 2 -Max 96 -Info "Set the magic cost for using Light Arrows´n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"   -Credits "Admentus (original) & Anthrogi (ported)"
-    CreateReduxTextBox -Name "Burst"  	  -Text "Din's Fire"    -Value 12 -Min 2 -Max 96 -Info "Set the magic cost for using Din's Fire.`n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"    -Credits "Admentus (original) & Anthrogi (ported)"
-    CreateReduxTextBox -Name "Teleport"   -Text "Farore's Wind" -Value 12 -Min 2 -Max 96 -Info "Set the magic cost for using Farore's Wind.`n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter" -Credits "Admentus (original) & Anthrogi (ported)"
-    CreateReduxTextBox -Name "Barrier"    -Text "Nayru's Love"  -Value 24 -Min 2 -Max 96 -Info "Set the magic cost for using Nayru's Love.`n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"  -Credits "Admentus (original) & Anthrogi (ported)"
+    CreateReduxGroup   	-Tag  "Magic"      	-Text "Magic Costs"
+    CreateReduxTextBox 	-Name "FireArrow"  	-Text "Fire Arrow"    	  -Value 4  -Min 2 -Max 96 																	  -Info "Set the magic cost for using Fire Arrows´n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"    -Credits "Admentus (original) & Anthrogi (ported)"
+    CreateReduxTextBox 	-Name "IceArrow"   	-Text "Ice Arrow"     	  -Value 4  -Min 2 -Max 96 																	  -Info "Set the magic cost for using Ice Arrows´n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"     -Credits "Admentus (original) & Anthrogi (ported)"
+    CreateReduxTextBox 	-Name "LightArrow" 	-Text "Light Arrow"   	  -Value 8  -Min 2 -Max 96 																	  -Info "Set the magic cost for using Light Arrows´n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"   -Credits "Admentus (original) & Anthrogi (ported)"
+    CreateReduxTextBox 	-Name "Burst"  	  	-Text "Din's Fire"    	  -Value 12 -Min 2 -Max 96 																	  -Info "Set the magic cost for using Din's Fire.`n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"    -Credits "Admentus (original) & Anthrogi (ported)"
+    CreateReduxTextBox 	-Name "Teleport"   	-Text "Farore's Wind" 	  -Value 12 -Min 2 -Max 96 																	  -Info "Set the magic cost for using Farore's Wind.`n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter" -Credits "Admentus (original) & Anthrogi (ported)"
+    CreateReduxTextBox 	-Name "Barrier"    	-Text "Nayru's Love"  	  -Value 24 -Min 2 -Max 96 																	  -Info "Set the magic cost for using Nayru's Love.`n48 is the maximum amount of the standard magic meter while 96 is the maximum amount of the double magic meter"  -Credits "Admentus (original) & Anthrogi (ported)"
+	CreateReduxComboBox -Name "MagicUsage2" -Text "Magic Spin Attack" -Default 1 -Items @("1x Magic Usage", "2x Magic Usage", "4x Magic Usage", "8x Magic Usage") -Info "Set the multiplier rate the magic is consumed at, for magic spin attacks"          																		 -Credits "Anthrogi"
 }
 
 
